@@ -17,10 +17,10 @@ def db_loader(db_path):
 
 class main_class:
     def save(self):
-        cont = db_loader(self.path)
-        cont[self.nr] = self.data
+        content = db_loader(self.path)
+        content[self.nr] = self.data
         with open(self.path,"w") as fp:
-            json.dump(cont, fp)
+            json.dump(content, fp)
     def load(self):
         self.data = db_loader(self.path)[self.nr]
 
@@ -30,7 +30,7 @@ class customer(main_class):
         self.nr = str(nr)
         self.path = customer_path
 
-    def register(self, name, age, code):
+    def register(self, name, age, code, credit = 0, purchases = 0):
         self.nr = str(random.randint(100000, 999999))
         customers = db_loader(self.path)
         while str(self.nr) in customers:
@@ -38,8 +38,8 @@ class customer(main_class):
         self.data = {
             "name": name,
             "age": age,
-            "credit": 0,
-            "purchases": 0,
+            "credit": credit,
+            "purchases": purchases,
             "code": code
         }
         self.save()
@@ -60,10 +60,24 @@ class product(main_class):
     def __init__(self, nr):
         self.nr = str(nr)
         self.path = product_path
-    
-    def add_product(self, name, weight, cost, amount, sale = 0):
-        pass
-        
 
+    def add_product(self, name, cost, weight, amount, sale = 0):
+        self.nr = str(random.randint(100000, 999999))
+        products = db_loader(self.path)
+        while str(self.nr) in products:
+            self.nr = str(random.randint(100000, 999999))
+        self.data = {
+            "name": name,
+            "cost": cost,
+            "weight": weight,
+            "amount": amount,
+            "sale": sale
+        }
+        self.save()
+        return f"Product added, the product id is {self.nr}"
+
+    def get_data(self):
+        self.load()
+        return self.data
 
 #######################################################################################################
