@@ -62,7 +62,7 @@ class product(main_class):
         self.path = product_path
 
     def add_product(self, name, cost, weight, amount, sale = 0):
-        self.nr = str(random.randint(100000, 999999))
+        self.nr = str(random.randint(100000, 999999)) #ta input för sträckkod och gör felhantering för om det är fel längd
         products = db_loader(self.path)
         while str(self.nr) in products:
             self.nr = str(random.randint(100000, 999999))
