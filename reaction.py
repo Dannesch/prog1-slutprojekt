@@ -1,13 +1,14 @@
 from threading import Thread
 from time import sleep
+import platform
 
 done = False
 
 class _Getch:
     def __init__(self):
-        try:
+        if platform.system() == "Windows":
             self.impl = _GetchWindows()
-        except ImportError:
+        else:
             self.impl = _GetchUnix()
 
     def __call__(self): return self.impl()
