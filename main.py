@@ -2,8 +2,9 @@ import json
 import os
 import random
 
-customer_path = "customers.json"
-product_path = "products.json"
+db_folder = "data/"
+customer_path = db_folder + "customers.json"
+product_path = db_folder + "products.json"
 
 def db_loader(db_path):
     if not os.path.exists(db_path):
@@ -50,7 +51,7 @@ class customer(main_class):
         if str(self.nr) in customers:
             self.load()
             if self.data["code"] == code:
-                return self
+                return self.data
             else:
                 return "incorrect code"
         else:
@@ -61,7 +62,7 @@ class product(main_class):
         self.nr = str(nr)
         self.path = product_path
 
-    def add_product(self, name, cost, weight, amount, sale = 0):
+    def add_product(self, name, cost, weight, amount, sold = 0, sale = 0):
         self.nr = str(random.randint(100000, 999999)) #ta input för sträckkod och gör felhantering för om det är fel längd
         products = db_loader(self.path)
         while str(self.nr) in products:
@@ -71,6 +72,7 @@ class product(main_class):
             "cost": cost,
             "weight": weight,
             "amount": amount,
+            "sold": sold,
             "sale": sale
         }
         self.save()
