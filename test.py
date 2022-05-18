@@ -1,15 +1,14 @@
 from main import *
 
-harald = customer(765472)
+def cashier():
+    pass
 
-#print(harald.register("Harald", 10, 4453))
+def inventory():
+    pass
 
-print(harald.login(1234))
+system = tryer("Vilket system vill du använda? (1 = kassa, 2 = inventering)\n", "Var god välj ett av alternativen!", int, lambda x: 1<=x<=2)
 
-
-
-chips = product(392630)
-
-#print(chips.add_product("Chips", 12, 10, 100))
-
-print(chips.get_data())
+if system == 1:
+    print("Kassa")
+else:
+    print("Inventering")

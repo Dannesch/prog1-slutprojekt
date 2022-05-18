@@ -16,6 +16,20 @@ def db_loader(db_path):
         with open(db_path, "r") as fp:
             return json.load(fp)
 
+def tryer(question, error_message, check_type, req = None):
+    while True:
+        try:
+            result = check_type(input(question))
+            if req == None:
+                return result
+            elif req(result):
+                return result
+            else:
+                print(error_message)
+        except:
+            print(error_message)
+
+
 class main_class:
     def save(self):
         content = db_loader(self.path)
@@ -24,7 +38,6 @@ class main_class:
             json.dump(content, fp)
     def load(self):
         self.data = db_loader(self.path)[self.nr]
-
 
 class customer(main_class):
     def __init__(self, nr):
@@ -81,5 +94,8 @@ class product(main_class):
     def get_data(self):
         self.load()
         return self.data
+    
+    def remove_product(self):
+        
 
 #######################################################################################################
