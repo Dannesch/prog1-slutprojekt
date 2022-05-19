@@ -29,6 +29,12 @@ def tryer(question, error_message, check_type, req = None):
         except:
             print(error_message)
 
+def database_searcher(path, name):
+    database = db_loader(path)
+    for i in database:
+        if database[i]['name'] == name.capitalize():
+            return i
+
 
 class main_class:
     def save(self):
@@ -36,8 +42,14 @@ class main_class:
         content[self.nr] = self.data
         with open(self.path,"w") as fp:
             json.dump(content, fp)
+
     def load(self):
         self.data = db_loader(self.path)[self.nr]
+
+    def edit(self, item, value):
+        self.load()
+        self.data[item] = value
+        self.save()
 
 class customer(main_class):
     def __init__(self, nr):
@@ -50,7 +62,7 @@ class customer(main_class):
         while str(self.nr) in customers:
             self.nr = str(random.randint(100000, 999999))
         self.data = {
-            "name": name,
+            "name": name.capitalize(),
             "age": age,
             "credit": credit,
             "purchases": purchases,
@@ -81,7 +93,7 @@ class product(main_class):
         while str(self.nr) in products:
             self.nr = str(random.randint(100000, 999999))
         self.data = {
-            "name": name,
+            "name": name.capitalize(),
             "cost": cost,
             "weight": weight,
             "amount": amount,
@@ -94,8 +106,5 @@ class product(main_class):
     def get_data(self):
         self.load()
         return self.data
-    
-    def remove_product(self):
-        
 
 #######################################################################################################
